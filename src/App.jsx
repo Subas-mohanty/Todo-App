@@ -67,7 +67,7 @@ function App() {
             Manage Your Todos
           </h1>
           <div className="mb-4">
-            <TodoForm searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+            <TodoForm todos={todos} setTodos={setTodos} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           </div>
           <div className="flex flex-wrap gap-y-3">
             {sortedTodos.map((todo) => (
