@@ -24,6 +24,18 @@ function App() {
     );
   };
   
+  useEffect(() => {
+    const savedTodos = JSON.parse(localStorage.getItem("todos"));
+    if (savedTodos && savedTodos.length > 0) {
+      setTodos(savedTodos);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
+
   return (
     <TodoContextProvider value={{ todos, addTodo, updateTodo, deleteTodo, toggleCompleted }}>
       <div className="bg-[rgb(23,40,66)] min-h-screen py-8">
