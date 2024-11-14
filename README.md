@@ -16,9 +16,9 @@ This is a todo management application built in React where users can add, modify
 ## Getting started
 To run the todo app locally, follow these steps:
 
-1. Clone the repository: https://github.com/Subas-mohanty/Todo-App
+1. Clone the repository
 ```
-git clone 
+git clone https://github.com/Subas-mohanty/Todo-App
 ```
 2. Navigate to the project directory:
 ```
