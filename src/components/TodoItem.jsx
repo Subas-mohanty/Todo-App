@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTodo } from "../contexts";
+import DateFormat from "./DateFormat";
 
 function TodoItem({ todo, setTodoPriority }) {
 
@@ -36,6 +37,10 @@ function TodoItem({ todo, setTodoPriority }) {
         onChange={(e) => setTodoMsg(e.target.value)}
         readOnly={!isTodoEditable}
       />
+
+      {/* Creation Date */}
+      <div className="px-1 mr-2 h-full items-center"><DateFormat todo={todo}/></div>
+
       {/* Edit, Save Button */}
       <button
         className="inline-flex w-8 h-8 rounded-lg text-sm border border-black/10 justify-center items-center bg-gray-50 hover:bg-gray-100 shrink-0 disabled:opacity-50"
@@ -52,17 +57,17 @@ function TodoItem({ todo, setTodoPriority }) {
       </button>
 
         {/* Set Priority Button */}
-        <select className="inline-flex w-8 h-8 rounded-lg text-sm border border-black/10 justify-center items-center bg-gray-50 hover:bg-gray-100 shrink-0 disabled:opacity-50"
-
-                name="priority"
-                value={todo.priority}
-                onChange={(e) => setTodoPriority(todo.id, parseInt(e.target.value, 10))}
+        <select 
+          className=" px-2 inline-flex w-20 rounded-lg text-sm border border-gray-300 justify-center items-center bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          name="priority"
+          value={todo.priority}
+          onChange={(e) => setTodoPriority(todo.id, parseInt(e.target.value, 10))}
         >
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            
+          <option className="p-2 px-1 text-sm text-gray-800 bg-gray-50 hover:bg-gray-200 rounded-lg" value="1">Urgent</option>
+          <option className="p-2 px-1 text-sm text-gray-800 bg-gray-50 hover:bg-gray-200 rounded-lg" value="2">Important</option>
+          <option className="p-2 px-1 text-sm text-gray-800 bg-gray-50 hover:bg-gray-200 rounded-lg" value="3">Not important</option>
         </select>
+
 
       {/* Delete Todo Button */}
       <button
