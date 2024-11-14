@@ -7,6 +7,7 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [searchTerm, setSearchTerm] = useState(''); // For search input
   const [filteredTodos, setFilteredTodos] = useState([]); // For search results
+  const [priority, setPriority] = useState(0);
   
   const addTodo = (todo) => {
     setTodos((prev) => [{ id: Date.now(), ...todo }, ...prev]);
@@ -25,6 +26,12 @@ function App() {
       prev.map((todo) => todo.id === id ? { ...todo, completed: !todo.completed } : todo)
     );
   };
+
+  const setTodoPriority = (id, priority) => {
+    setTodos((prev) => 
+      prev.map((todo) => todo.id === id ? { ...todo, priority} : todo)
+    );
+  }
   
   useEffect(() => {
     const savedTodos = JSON.parse(localStorage.getItem("todos"));
@@ -48,16 +55,18 @@ function App() {
     } else {
       setFilteredTodos(todos);
     }
-    filteredTodos.map(todo => console.log(todo))
-    
+
   }, [searchTerm, todos]);
 
-  // TODOS
-  // compare sorting with priority
-  // todos.sort((a, b) => a.priority - b.priority);
+  useEffect(()=>{
+    const sortedTodos = todos.sort((a, b) => a.priority - b.priority);
+    const filteredSortedTodos = filteredTodos.sort((a, b) => a.priority - b.priority);
+    setTodos(sortedTodos);
+    setFilteredTodos(filteredSortedTodos);
+  }, [todos])
 
   return (
-    <TodoContextProvider value={{ todos, addTodo, updateTodo, deleteTodo, toggleCompleted }}>
+    <TodoContextProvider value={{ todos, addTodo, updateTodo, deleteTodo, toggleCompleted, setTodoPriority}}>
       <div className="bg-[rgb(23,40,66)] min-h-screen py-8">
         <div className="w-full max-w-2xl mx-auto shadow-md rounded-lg px-4 py-3 text-white">
           <h1 className="text-2xl font-bold text-center mb-8 mt-2">
@@ -69,7 +78,7 @@ function App() {
           <div className="flex flex-wrap gap-y-3">
             {(searchTerm ? filteredTodos : todos).map((todo) => (
               <div key={todo.id} className="w-full">
-                <TodoItem todo={todo} />
+                <TodoItem todo={todo} setTodoPriority={setTodoPriority} />
               </div>
             ))}
           </div>

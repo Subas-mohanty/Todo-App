@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useTodo } from "../contexts";
 
-function TodoItem({ todo }) {
+function TodoItem({ todo, setTodoPriority }) {
 
-  const [isTodoEditable, setIsTodoEditable] = useState(false)
+  const [isTodoEditable, setIsTodoEditable] = useState(false);
   const [todoMsg, setTodoMsg] = useState(todo.todo);
 
   const {updateTodo, deleteTodo, toggleCompleted} = useTodo();
@@ -50,6 +50,20 @@ function TodoItem({ todo }) {
       >
         {isTodoEditable ? "📁" : "✏️"}
       </button>
+
+        {/* Set Priority Button */}
+        <select className="inline-flex w-8 h-8 rounded-lg text-sm border border-black/10 justify-center items-center bg-gray-50 hover:bg-gray-100 shrink-0 disabled:opacity-50"
+
+                name="priority"
+                value={todo.priority}
+                onChange={(e) => setTodoPriority(todo.id, parseInt(e.target.value, 10))}
+        >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            
+        </select>
+
       {/* Delete Todo Button */}
       <button
         className="inline-flex w-8 h-8 rounded-lg text-sm border border-black/10 justify-center items-center bg-gray-50 hover:bg-gray-100 shrink-0"

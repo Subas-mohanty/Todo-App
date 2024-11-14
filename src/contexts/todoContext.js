@@ -4,14 +4,17 @@ export const TodoContext = createContext({
   todos : [
     {
       id : 0,
+      priority : 0,
       todo : "",
       completed : false,
+
     }
   ],
   addTodo : ()=>{},
   updateTodo : (id, todo) =>{},
   deleteTodo : (id) =>{},
-  toggleCompleted : (id)=>{}
+  toggleCompleted : (id)=>{},
+  setTodoPriority : (id, priority) => {}
 });
 
 export const TodoContextProvider = TodoContext.Provider;
