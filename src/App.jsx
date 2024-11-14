@@ -5,9 +5,8 @@ import { TodoContextProvider } from "./contexts";
 
 function App() {
   const [todos, setTodos] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(''); // For search input
-  const [filteredTodos, setFilteredTodos] = useState([]); // For search results
-  const [priority, setPriority] = useState(0);
+  const [searchTerm, setSearchTerm] = useState(''); 
+  const [filteredTodos, setFilteredTodos] = useState([]); 
   
   const addTodo = (todo) => {
     setTodos((prev) => [{ id: Date.now(), ...todo }, ...prev]);
@@ -50,7 +49,7 @@ function App() {
       setFilteredTodos(
         todos.filter(todo => 
           todo?.todo?.toLowerCase().includes(searchTerm?.toLowerCase())
-        )
+        ).sort((a, b) => a.priority - b.priority)
       );
     } else {
       setFilteredTodos(todos);
@@ -58,12 +57,7 @@ function App() {
 
   }, [searchTerm, todos]);
 
-  useEffect(()=>{
-    const sortedTodos = todos.sort((a, b) => a.priority - b.priority);
-    const filteredSortedTodos = filteredTodos.sort((a, b) => a.priority - b.priority);
-    setTodos(sortedTodos);
-    setFilteredTodos(filteredSortedTodos);
-  }, [todos])
+  const sortedTodos = (searchTerm ? filteredTodos : todos).sort((a, b) => a.priority - b.priority);
 
   return (
     <TodoContextProvider value={{ todos, addTodo, updateTodo, deleteTodo, toggleCompleted, setTodoPriority}}>
@@ -76,7 +70,7 @@ function App() {
             <TodoForm searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           </div>
           <div className="flex flex-wrap gap-y-3">
-            {(searchTerm ? filteredTodos : todos).map((todo) => (
+            {sortedTodos.map((todo) => (
               <div key={todo.id} className="w-full">
                 <TodoItem todo={todo} setTodoPriority={setTodoPriority} />
               </div>

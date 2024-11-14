@@ -5,14 +5,16 @@ function TodoForm({setSearchTerm, searchTerm}) {
 
   const [todo, setTodo] = useState("");
   const {addTodo} = useTodo();
+  const [priority, setPriority] = useState(0);
 
   // console.log(todo);
 
   function add(e){
     e.preventDefault();
     if(!todo) return;
-    addTodo({todo, completed : false})
+    addTodo({todo, completed : false, priority})
     setTodo("") // after adding one todo we are making todo = "", so that next time the if statement doesn't fail
+    setPriority(0);
   }
 
   return (
