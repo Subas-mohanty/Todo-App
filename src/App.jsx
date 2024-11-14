@@ -5,6 +5,8 @@ import { TodoContextProvider } from "./contexts";
 
 function App() {
   const [todos, setTodos] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(''); // For search input
+  const [filteredTodos, setFilteredTodos] = useState([]); // For search results
   
   const addTodo = (todo) => {
     setTodos((prev) => [{ id: Date.now(), ...todo }, ...prev]);
@@ -36,6 +38,24 @@ function App() {
   }, [todos]);
 
 
+  useEffect(() => {
+    if (searchTerm) {
+      setFilteredTodos(
+        todos.filter(todo => 
+          todo?.todo?.toLowerCase().includes(searchTerm?.toLowerCase())
+        )
+      );
+    } else {
+      setFilteredTodos(todos);
+    }
+    filteredTodos.map(todo => console.log(todo))
+    
+  }, [searchTerm, todos]);
+
+  // TODOS
+  // compare sorting with priority
+  // todos.sort((a, b) => a.priority - b.priority);
+
   return (
     <TodoContextProvider value={{ todos, addTodo, updateTodo, deleteTodo, toggleCompleted }}>
       <div className="bg-[rgb(23,40,66)] min-h-screen py-8">
@@ -44,7 +64,7 @@ function App() {
             Manage Your Todos
           </h1>
           <div className="mb-4">
-            <TodoForm />
+            <TodoForm searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           </div>
           <div className="flex flex-wrap gap-y-3">
             {(searchTerm ? filteredTodos : todos).map((todo) => (
